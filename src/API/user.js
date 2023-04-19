@@ -18,18 +18,45 @@ export const login = async (email, password) => {
   return response;
 };
 
-export const signup = async (email, password) => {
-  var data = JSON.stringify({ email, password });
+export const signup = async (
+  firstName,
+  lastName,
+  email,
+  password,
+  dateOfBirth,
+  gender,
+  profilePicture,
+  phoneNumber,
+  address
+) => {
+  console.log(firstName);
+  console.log(lastName);
+  console.log(email);
+  console.log(password);
+  console.log(dateOfBirth);
+  console.log(gender);
+  console.log(profilePicture);
+  console.log(phoneNumber);
+  console.log(address);
 
-  var config = {
-    method: "post",
-    url: `${ss}/user/signup`,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: data,
-  };
-
-  const response = await axios(config);
-  return response;
+  // var data = JSON.stringify({
+  //   firstName,
+  //   lastName,
+  //   email,
+  //   password,
+  //   dateOfBirth,
+  //   gender,
+  //   phoneNumber,
+  //   address,
+  // });
+  // var config = {
+  //   method: "post",
+  //   url: `${ss}/user/signup`,
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   data: data,
+  // };
+  // const response = await axios(config);
+  // return response;
 };
