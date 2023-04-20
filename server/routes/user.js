@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const { authorize } = require("../middleware/user");
 
 const { signup, login } = require("../controllers/user");
 
@@ -8,8 +9,7 @@ const upload = multer();
 
 router.post("/signup", upload.single("profilePicture"), signup);
 router.post("/login", login);
-
-router.put("/", (req, res) => {
+router.put("/", authorize, (req, res) => {
   res.send("update usessr");
 });
 
