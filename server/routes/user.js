@@ -1,44 +1,43 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
+const multer = require("multer");
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-router.post("/signup", async (req, res) => {
-  console.log(req.body);
+const { signup } = require("../controllers/user");
 
-  try {
-    const newUser = new User({
-      firstName: "John",
-      lastName: "Doe",
-      email: "johndoe@example.com",
-      password: "password",
-      dateOfBirth: new Date("1990-01-01"),
-      gender: "Male",
-      contactInformation: {
-        phoneNumber: "1234567890",
-        address: "123 Main St",
-      },
-    });
-    await newUser.save();
-    res.status(200).json({ message: "User created successfully" });
-  } catch (err) {
-    console.log("LMFAssOO");
-    res.status(400).json({ message: "Email already exists" });
+const upload = multer();
+
+router.post("/signup", upload.single("profilePicture"), signup);
+
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res
+      .status(400)
+      .json({ message: "No user found against the provided email." });
   }
-});
 
-router.post("/login", (req, res) => {
+  const match = await bcrypt.compare(password, user.password);
+  if (!match) {
+    return res.status(400).json({ message: "Invalid password." });
+  }
+
+  const payload = { email: user.email };
+  const secret = "PZWT2Y3RW39yS2YFlM3o";
+  const expiresIn = "30d";
+
+  const token = jwt.sign(payload, secret, { expiresIn });
+  console.log(token);
+
   res.send("login");
 });
 
 router.put("/update", (req, res) => {
-  // First Name: the name of the user
-  // Last Name: the name of the user
-  // Email: the email address of the user
-  // Password: a secure password for the user's account
-  // Date of Birth: The user's date of birth.
-  // Gender: The user's gender.
-  // Profile Picture: The user's profile picture, stored as an image file.
   res.send("update user");
 });
 
