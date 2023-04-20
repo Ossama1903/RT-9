@@ -12,6 +12,29 @@ function Signup() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
 
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signup(
+      firstName,
+      lastName,
+      email,
+      password,
+      dateOfBirth,
+      gender,
+      file,
+      phoneNumber,
+      address
+    )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e) => console.log(e));
+  };
+
   const inputs = [
     {
       name: "firstName",
@@ -86,21 +109,34 @@ function Signup() {
     {
       name: "profilePicture",
       placeHolder: "Profile Picture",
-      type: "filetext",
-      onChange: (e) => {
-        setFile(e.target.value);
-      },
+      type: "file",
+      onChange: (e) => handleFileChange(e),
       isValid: Boolean(file),
     },
   ];
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  const selects = [
+    {
+      name: "gender",
+      onChange: (e) => {
+        setGender(e.target.value);
+      },
+      options: [
+        {
+          name: "Male",
+          value: "male",
+        },
+        {
+          name: "Female",
+          value: "female",
+        },
+        {
+          name: "Other",
+          value: "other",
+        },
+      ],
+    },
+  ];
 
   return (
     <div>
@@ -109,12 +145,27 @@ function Signup() {
       <form onSubmit={handleSubmit}>
         {inputs.map((input) => (
           <input
+            key={input.name}
             type={input.type}
             placeholder={input.placeHolder}
             onChange={input.onChange}
           ></input>
         ))}
-        <input type="file" onChange={handleFileChange} />
+        {selects.map((select) => (
+          <select
+            key={select.name}
+            id={select.name}
+            name={select.name}
+            defaultValue={select.options[0].value}
+            onChange={select.onChange}
+          >
+            {select.options.map((option, index) => (
+              <option key={option.name} value={option.value}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+        ))}
         <button type="submit" onClick={handleSubmit}>
           Upload
         </button>
