@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import { login } from "../../API/user";
+import { useAuth } from "../../components/Auth/Auth";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const { login } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(email, password)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((e) => console.log(e));
+    login(email, password, rememberMe)
+      .then((response) => console.log(response))
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const inputs = [
@@ -55,6 +58,14 @@ function Login() {
             onChange={input.onChange}
           ></input>
         ))}
+        <input
+          type="checkbox"
+          name="myCheckbox"
+          value={rememberMe}
+          onChange={() => setRememberMe(!rememberMe)}
+        />
+        <label htmlFor="myCheckbox">Remember Me</label>
+
         <button type="submit" onClick={handleSubmit}>
           Upload
         </button>
