@@ -12,6 +12,10 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    console.log(localStorage.getItem("token"));
+  }, []);
+
   async function login(email, password, rememberMe) {
     let response = "";
     setIsLoading(true);
