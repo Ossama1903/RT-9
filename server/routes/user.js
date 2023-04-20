@@ -12,6 +12,9 @@ router.post("/login", login);
 router.put("/", authorize, (req, res) => {
   res.send("update usessr");
 });
+router.get("/authorize", authorize, (req, res) => {
+  res.status(200).json({ message: "token authorized" });
+});
 
 router.get("/get-user", (req, res) => {
   res.send("get user");
