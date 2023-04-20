@@ -2,7 +2,7 @@ import axios from "axios";
 
 const ss = "http://localhost:4000";
 
-export const login = async (email, password) => {
+export const attemptLogin = async (email, password) => {
   var data = JSON.stringify({
     email,
     password,

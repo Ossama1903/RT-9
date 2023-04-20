@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { attemptLogin } from "../../API/user";
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -8,20 +9,28 @@ const AuthContext = createContext({
 });
 
 export function AuthProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  function login() {
+  async function login(email, password, rememberMe) {
+    let response = "";
     setIsLoading(true);
-
-    // Implement your login logic here and set the isAuthenticated state
+    try {
+      response = await attemptLogin(email, password);
+      if (rememberMe) localStorage.setItem("token", response.data.token);
+      setIsAuthenticated(true);
+    } catch (e) {
+      response = e;
+      setIsAuthenticated(false);
+    }
     setIsLoading(false);
-    setIsAuthenticated(true);
+    return response;
   }
 
   function logout() {
     setIsLoading(true);
     // Implement your logout logic here and reset the isAuthenticated state
+    // must destroy our session here
     setIsLoading(false);
     setIsAuthenticated(false);
   }
