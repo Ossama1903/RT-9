@@ -1,5 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { attemptLogin } from "../../API/user";
+import Cookies from "js-cookie";
+import { authenticate } from "../../API/util";
+import { Navigate } from "react-router-dom";
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -13,18 +16,31 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log(localStorage.getItem("token"));
+    setIsLoading(true);
+    const savedToken = Cookies.get("rt9AuthenticationToken");
+    authenticate(savedToken)
+      .then((response) => {
+        setIsAuthenticated(true);
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        setIsAuthenticated(false);
+        setIsLoading(false);
+        <Navigate to="/login" />;
+      });
   }, []);
 
-  async function login(email, password, rememberMe) {
+  async function login(email, password) {
     let response = "";
     setIsLoading(true);
     try {
       response = await attemptLogin(email, password);
-      if (rememberMe) localStorage.setItem("token", response.data.token);
+      console.log("LOGGING IN");
+      Cookies.set("rt9AuthenticationToken", response.data.token);
       setIsAuthenticated(true);
     } catch (e) {
       response = e;
+      Cookies.remove("rt9AuthenticationToken");
       setIsAuthenticated(false);
     }
     setIsLoading(false);
@@ -33,10 +49,9 @@ export function AuthProvider({ children }) {
 
   function logout() {
     setIsLoading(true);
-    // Implement your logout logic here and reset the isAuthenticated state
-    // must destroy our session here
-    setIsLoading(false);
+    Cookies.remove("rt9AuthenticationToken");
     setIsAuthenticated(false);
+    setIsLoading(false);
   }
 
   const value = { isAuthenticated, isLoading, login, logout };

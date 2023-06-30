@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { useAuth } from "../../components/Auth/Auth";
+import { Grid } from "@mui/material";
+import theme from "../../theme/theme";
+import CustomizedGrid from "../../utilityComponents/CustomizedGrid";
+import useCustomizable from "../../useCustomizable";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-
   const { login } = useAuth();
+  const { loginHeading, loginSubHeading } = useCustomizable();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(email, password, rememberMe)
+    login(email, password)
       .then((response) => console.log(response))
       .catch((e) => {
         console.log(e);
@@ -47,29 +50,46 @@ function Login() {
 
   return (
     <div>
-      <h1>Login Page</h1>
-      <p>Log in to my app!</p>
-      <form onSubmit={handleSubmit}>
-        {inputs.map((input) => (
-          <input
-            key={input.name}
-            type={input.type}
-            placeholder={input.placeHolder}
-            onChange={input.onChange}
-          ></input>
-        ))}
-        <input
-          type="checkbox"
-          name="myCheckbox"
-          value={rememberMe}
-          onChange={() => setRememberMe(!rememberMe)}
-        />
-        <label htmlFor="myCheckbox">Remember Me</label>
-
-        <button type="submit" onClick={handleSubmit}>
-          Upload
-        </button>
-      </form>
+      <CustomizedGrid
+        items={[
+          <Grid
+            item
+            xs={12}
+            md={8}
+            sx={{
+              backgroundColor: theme.palette.customGreen,
+              minHeight: "100vh",
+            }}
+          >
+            <h1>{loginHeading}</h1>
+            <p>{loginSubHeading}</p>
+            <form onSubmit={handleSubmit}>
+              {inputs.map((input) => (
+                <input
+                  key={input.name}
+                  type={input.type}
+                  placeholder={input.placeHolder}
+                  onChange={input.onChange}
+                ></input>
+              ))}
+              <button type="submit" onClick={handleSubmit}>
+                Upload
+              </button>
+            </form>
+          </Grid>,
+          <Grid
+            item
+            md={4}
+            sx={{
+              display: { xs: "none", md: "block" },
+              backgroundColor: theme.palette.customBlack,
+              minHeight: "100vh",
+            }}
+          >
+            Grid Item 2
+          </Grid>,
+        ]}
+      />
     </div>
   );
 }

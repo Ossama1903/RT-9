@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    index: true
+    index: true,
   },
   password: {
     type: String,
@@ -37,9 +37,11 @@ const userSchema = new mongoose.Schema({
     },
     address: {
       type: String,
-    }
+    },
   },
 });
+
+userSchema.index({ firstName: "text", lastName: "text", email: "text" });
 
 const User = mongoose.model("User", userSchema);
 
