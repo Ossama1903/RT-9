@@ -3,9 +3,6 @@ import { useAuth } from "../Auth/Auth";
 import { useEffect } from "react";
 const PrivateRoutes = () => {
   const auth = useAuth();
-  useEffect(() => {
-    console.log(auth);
-  }, []);
   return auth.isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
 

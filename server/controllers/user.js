@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const { GridFsStorage } = require("multer-gridfs-storage");
 
 const signup = async (req, res) => {
   const {
@@ -13,6 +15,8 @@ const signup = async (req, res) => {
     phoneNumber,
     address,
   } = req.body;
+
+  console.log("body", req.body);
 
   const saltRounds = 10;
   const encryptedPassword = await bcrypt.hash(password, saltRounds);
@@ -40,7 +44,6 @@ const signup = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -66,7 +69,56 @@ const login = async (req, res) => {
   });
 };
 
+const uploadFiles = (req, res) => {
+  const authHeader = req.headers;
+  const token = authHeader["authorization"].split(" ")[1];
+  const decoded = jwt.verify(token, "PZWT2Y3RW39yS2YFlM3o");
+
+  const storage = new GridFsStorage({
+    url: `mongodb+srv://kage1903:mongo19@rt-9-cluster.wx4nhre.mongodb.net/?retryWrites=true&w=majority`,
+    options: { useNewUrlParser: true, useUnifiedTopology: true },
+    file: (req, file) => {
+      return {
+        bucketName: "userUploads",
+        filename: file.originalname,
+        metadata: {
+          user: decoded.email,
+        },
+      };
+    },
+  });
+
+  const upload = multer({ storage }).array("files", 10);
+
+  upload(req, res, (err) => {
+    if (err) {
+      console.error("Error uploading files:", err);
+      return res.status(500).send("Error uploading files.");
+    }
+    const uploadedFiles = req.files;
+    return res.send("Files uploaded successfully.");
+  });
+};
+
+const authorizeController = (req, res) => {
+  res.status(200).json({ message: "token authorized" });
+};
+
+const searchUser = async (req, res) => {
+  const { query } = req.query;
+  try {
+    const results = await User.find({ $text: { $search: query } }).exec();
+    res.json(results);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: "Error in search user" });
+  }
+};
+
 module.exports = {
   signup,
   login,
+  uploadFiles,
+  authorizeController,
+  searchUser,
 };

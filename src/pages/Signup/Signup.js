@@ -106,13 +106,13 @@ function Signup() {
       },
       isValid: address !== "",
     },
-    {
-      name: "profilePicture",
-      placeHolder: "Profile Picture",
-      type: "file",
-      onChange: (e) => handleFileChange(e),
-      isValid: Boolean(file),
-    },
+    // {
+    //   name: "profilePicture",
+    //   placeHolder: "Profile Picture",
+    //   type: "file",
+    //   onChange: (e) => handleFileChange(e),
+    //   isValid: Boolean(file),
+    // },
   ];
 
   const selects = [
