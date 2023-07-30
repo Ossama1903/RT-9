@@ -8,9 +8,9 @@ const taskSchema = new mongoose.Schema({
   status: { type: String, enum: ["completed", "in progress", "not started"] },
   tags: [{ type: String }],
   subtasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Task" }],
-  duration: { type: Number },
-  attachments: [{ type: String }],
-  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
 const Task = mongoose.model("Task", taskSchema);
+
+module.exports = Task;

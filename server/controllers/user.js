@@ -16,8 +16,6 @@ const signup = async (req, res) => {
     address,
   } = req.body;
 
-  console.log("body", req.body);
-
   const saltRounds = 10;
   const encryptedPassword = await bcrypt.hash(password, saltRounds);
 

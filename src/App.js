@@ -11,29 +11,59 @@ import Tasks from "./pages/Tasks/Tasks";
 import "./App.scss";
 import NonPrivateRoutes from "./components/NonPrivateRoutes/NonPrivateRoutes";
 import SideNavLayout from "./components/SideNavLayout/SideNavLayout";
-import { ThemeProvider } from "@mui/material";
+import { Box, ThemeProvider } from "@mui/material";
 import theme from "./theme/theme";
+import { CustomizableProvider } from "./useCustomizable";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <Router>
-          <Routes>
-            <Route element={<PrivateRoutes />}>
-              {/* <Route path="/" element={<Home />} /> */}
-              <Route path="/" element={<SideNavLayout />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/routines" element={<Routines />} />
-              <Route path="/tasks" element={<Tasks />} />
-            </Route>
-            <Route element={<NonPrivateRoutes />}>
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
-            </Route>
-          </Routes>
-        </Router>
-      </AuthProvider>
+      <CustomizableProvider>
+        <AuthProvider>
+          <Router>
+            <Routes>
+              <Route element={<PrivateRoutes />}>
+                <Route
+                  path="/"
+                  element={
+                    <SideNavLayout>
+                      <Home />
+                    </SideNavLayout>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <SideNavLayout>
+                      <Profile />
+                    </SideNavLayout>
+                  }
+                />
+                <Route
+                  path="/routines"
+                  element={
+                    <SideNavLayout>
+                      <Routines />
+                    </SideNavLayout>
+                  }
+                />
+                <Route
+                  path="/tasks"
+                  element={
+                    <SideNavLayout>
+                      <Tasks />
+                    </SideNavLayout>
+                  }
+                />
+              </Route>
+              <Route element={<NonPrivateRoutes />}>
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+              </Route>
+            </Routes>
+          </Router>
+        </AuthProvider>
+      </CustomizableProvider>
     </ThemeProvider>
   );
 }

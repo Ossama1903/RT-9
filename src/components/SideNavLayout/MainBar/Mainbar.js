@@ -1,7 +1,7 @@
 import { Box, useTheme } from "@mui/material";
 import React from "react";
 import Navbar from "../Navbar/Navbar";
-import useCustomizable from "../../../useCustomizable";
+import { useCustomizable } from "../../../useCustomizable";
 
 const Mainbar = (props) => {
   const {
@@ -29,7 +29,6 @@ const Mainbar = (props) => {
             height: `calc(100vh - ${navbarHeight + 20}px)`,
             p: "10px",
             mr: { sm: 2 },
-
             overflowY: "auto",
             listStyle: "none",
             "&::-webkit-scrollbar": {
@@ -45,51 +44,7 @@ const Mainbar = (props) => {
             },
           }}
         >
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
-          <Box>ss</Box>
+          {props.children}
         </Box>
       </Box>
     </Box>

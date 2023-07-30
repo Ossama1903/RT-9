@@ -3,7 +3,7 @@ import { useAuth } from "../../components/Auth/Auth";
 import { Grid } from "@mui/material";
 import theme from "../../theme/theme";
 import CustomizedGrid from "../../utilityComponents/CustomizedGrid";
-import useCustomizable from "../../useCustomizable";
+import { useCustomizable } from "../../useCustomizable";
 
 function Login() {
   const [email, setEmail] = useState("");

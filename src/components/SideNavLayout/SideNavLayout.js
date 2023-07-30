@@ -3,9 +3,8 @@ import Sidebar from "./Sidebar/Sidebar";
 import Mainbar from "./MainBar/Mainbar";
 import { useState } from "react";
 
-const SideNavLayout = () => {
+const SideNavLayout = ({ children }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -16,7 +15,7 @@ const SideNavLayout = () => {
         mobileOpen={mobileOpen}
         handleDrawerToggle={handleDrawerToggle}
       />
-      <Mainbar handleDrawerToggle={handleDrawerToggle} />
+      <Mainbar handleDrawerToggle={handleDrawerToggle}>{children}</Mainbar>
     </>
   );
 };

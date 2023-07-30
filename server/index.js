@@ -1,6 +1,8 @@
 const express = require("express");
 const user = require("./routes/user");
 const data = require("./routes/data");
+const task = require("./routes/task");
+
 const cors = require("cors");
 const mongoose = require("mongoose");
 const app = express();
@@ -16,6 +18,8 @@ mongoose
   .catch((err) => console.error("Error connecting to MongoDB", err));
 
 app.use("/user", user);
+app.use("/task", task);
+
 app.use("/data", data);
 
 app.listen(port, () => {

@@ -1,10 +1,11 @@
 import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import useCustomizable from "../../../useCustomizable";
+import { useCustomizable } from "../../../useCustomizable";
 
 const Navbar = (props) => {
-  const { primaryBackground, drawerWidth, navbarHeight } = useCustomizable();
+  const { primaryBackground, drawerWidth, navbarHeight, toggleSidebarExtension } =
+    useCustomizable();
 
   return (
     <AppBar
@@ -23,13 +24,9 @@ const Navbar = (props) => {
           aria-label="open drawer"
           edge="start"
           onClick={props.handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: "none" } }}
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          Responsive drawer
-        </Typography>
       </Toolbar>
     </AppBar>
   );

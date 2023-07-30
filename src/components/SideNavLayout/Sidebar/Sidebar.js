@@ -1,12 +1,12 @@
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItemText from "@mui/material/ListItemText";
 import { Button, Typography, useTheme } from "@mui/material";
-import useCustomizable from "../../../useCustomizable";
+import { useCustomizable } from "../../../useCustomizable";
+import logo from "../../../static/logo1500.png";
+import { sidebarItems } from "../SidebarLinks";
+import { Link } from "react-router-dom";
 
 function ResponsiveDrawer(props) {
   const { window } = props;
@@ -15,35 +15,61 @@ function ResponsiveDrawer(props) {
     scrollbarColorMain,
     drawerWidth,
     navbarHeight,
+    sideBarExtended,
+    toggleSidebarExtension,
   } = useCustomizable();
 
   const drawer = (
     <Box>
-      <Typography variant="p" sx={{ ml: 3 }}>
-        Dashboard
-      </Typography>
-      <List
-        sx={{
-          position: "relative",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <Button
+      {sidebarItems.map(({ heading, items }) => (
+        <Box>
+          <Typography
+            variant="p"
             sx={{
-              width: "85%",
-              textTransform: "capitalize",
-              mx: "auto",
+              ml: 3,
+              display: sideBarExtended ? "block" : "none",
+              fontWeight: "bold",
             }}
-            color="customGrey"
           >
-            <InboxIcon sx={{ ml: 2 }} />
-            <ListItemText sx={{ ml: -1 }} primary={text} />
-          </Button>
-        ))}
-      </List>
+            {heading}
+          </Typography>
+          <List
+            sx={{
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {items.map((itemLevel1) => (
+              <Link
+                style={{
+                  width: "85%",
+                  textTransform: "capitalize",
+                  mx: "auto",
+                }}
+                to={itemLevel1.to}
+              >
+                <Button
+                  sx={{
+                    width: "100%",
+                  }}
+                  color="customGrey"
+                >
+                  {itemLevel1.icon}
+                  <ListItemText
+                    sx={{
+                      ml: -5,
+                      display: sideBarExtended ? "inline" : "none",
+                    }}
+                    primary={itemLevel1.items ? "extended" : itemLevel1.name}
+                  />
+                </Button>
+              </Link>
+            ))}
+          </List>
+        </Box>
+      ))}
     </Box>
   );
 
@@ -82,7 +108,16 @@ function ResponsiveDrawer(props) {
             minHeight: `${navbarHeight}px`,
           }}
         >
-          <p>logo</p>
+          <img src={logo} style={{ width: "35px" }} />
+          <Typography
+            variant="h6"
+            sx={{
+              ml: sideBarExtended ? 1.5 : 0,
+              display: sideBarExtended ? "inline" : "none",
+            }}
+          >
+            RT-9
+          </Typography>
         </Box>
         <Box
           sx={{
@@ -104,15 +139,6 @@ function ResponsiveDrawer(props) {
             },
           }}
         >
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
           {drawer}
         </Box>
       </Drawer>
@@ -134,10 +160,19 @@ function ResponsiveDrawer(props) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            minHeight: `${navbarHeight}px`,
+            minHeight: `${navbarHeight + 10}px`,
           }}
         >
-          <p>logo</p>
+          <img src={logo} style={{ width: "35px" }} />
+          <Typography
+            variant="h6"
+            sx={{
+              ml: sideBarExtended ? 1.5 : 0,
+              display: sideBarExtended ? "inline" : "none",
+            }}
+          >
+            RT-9
+          </Typography>
         </Box>
         <Box
           sx={{
@@ -159,15 +194,6 @@ function ResponsiveDrawer(props) {
             },
           }}
         >
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
-          {drawer}
           {drawer}
         </Box>
       </Drawer>
